@@ -15,11 +15,15 @@ void print_matrix(Matrix A) {
     // How many digits after decimal point to be shown
     int precision = 5;
 
+    int padding = 4;
+
     // Calculate total width of each element for formatting
     int total_width = get_max_width(A) + precision;
 
+    int ends_width = total_width * cols + padding * cols + 2; 
+
     // Top border
-    print_matrix_ends(total_width * cols + 2 * cols + 2);
+    print_matrix_ends(ends_width);
     printf("\n");
 
     // For each row
@@ -31,7 +35,7 @@ void print_matrix(Matrix A) {
 
         for (int j = 0; j < cols; j++) {
             // Print the element 
-            printf(" %*.*f ", total_width, precision, A.data[i][j]);
+            printf("  %*.*f  ", total_width, precision, A.data[i][j]);
         }
 
         // Right border
@@ -39,7 +43,7 @@ void print_matrix(Matrix A) {
     }
 
     // Bottom border
-    print_matrix_ends(total_width * cols + 2 * cols + 2);
+    print_matrix_ends(ends_width);
     printf("\n");
 }
 
