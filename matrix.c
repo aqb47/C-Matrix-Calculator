@@ -18,39 +18,47 @@ void print_matrix(Matrix A) {
     // Calculate total width of each element for formatting
     int total_width = get_max_width(A) + precision;
 
-    print_matrix_ends(total_width * cols + 4);
+    // Top border
+    print_matrix_ends(total_width * cols + 2 * cols + 2);
+    printf("\n");
 
     // For each row
     for (int i = 0; i < rows; i++) {
         // For each column in row
+
+        // Left border
         printf("| ");
 
         for (int j = 0; j < cols; j++) {
             // Print the element 
-            printf("%*.*f ", total_width, precision, A.data[i][j]);
+            printf(" %*.*f ", total_width, precision, A.data[i][j]);
         }
 
+        // Right border
         printf(" |\n");
     }
 
-    print_matrix_ends(total_width * cols + 4);
-
+    // Bottom border
+    print_matrix_ends(total_width * cols + 2 * cols + 2);
     printf("\n");
 }
 
 // Print the top and bottom borders of the matrix
 void print_matrix_ends(int width) {
     printf("-");
+    
     for (int i = 0; i < width; i++) {
         printf(" ");
     }
-    printf("-\n");
+    
+    printf("-");
 }
 
 // Get max width of the integer parts of elements in the matrix for formatting
 int get_max_width(Matrix A) {
     int rows = A.rows;
     int cols = A.cols;
+
     int max_width = 0;
 
     for (int i = 0; i < rows; i++) {
@@ -58,7 +66,8 @@ int get_max_width(Matrix A) {
             float value = A.data[i][j];
             int width;
 
-            width = count_digits(value) + 3; 
+            // +1 for decimal point
+            width = count_digits(value) + 1; 
 
             if (width > max_width) {
                 max_width = width;
