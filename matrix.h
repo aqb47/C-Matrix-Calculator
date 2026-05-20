@@ -10,6 +10,8 @@ typedef struct {
 } Matrix;
 
 Matrix add(Matrix A, Matrix B);
+Matrix subtract(Matrix A, Matrix B);
+
 Matrix multiply(Matrix A, Matrix B);
 
 Matrix transpose(Matrix A);
