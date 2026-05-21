@@ -215,35 +215,36 @@ double determinant(Matrix A) {
 
     int n = rows;
 
-    double determinant_value = 0;
+    double det_value = 0;
 
     // Non-square matrices do not have a determinant
     if (rows != cols) {
-        return determinant_value;
+        return NAN;
     }
 
     // 1x1 matrices determinant is their first value
     if (n == 1) {
-        determinant_value = A.data[0][0];
+        det_value = A.data[0][0];
     }
 
     // 2x2 matrices e.g [a b]
     //                  [c d]
     // have a determinant of ad - bc
     else if (n == 2) {
-        determinant_value = A.data[0][0] * A.data[1][1] - A.data[0][1] * A.data[1][0];
+        det_value = A.data[0][0] * A.data[1][1] - A.data[0][1] * A.data[1][0];
     }
 
     // Recursively generate determinant for n > 2
     else {
         for (int i = 0; i < cols; i++) {
             Matrix submatrix = generate_submatrix(A, 0, i);
+            int sign = (i % 2 == 0) ? 1: -1;
 
-            determinant_value += pow(-1, i) * A.data[0][i] * determinant(submatrix);
+            det_value += sign * A.data[0][i] * determinant(submatrix);
         }
     }
 
-    return determinant_value;
+    return det_value;
 }
 
 // Generate submatrix with respect to row, col position (which is zero-based)

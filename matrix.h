@@ -23,7 +23,6 @@ Matrix multiply(Matrix A, Matrix B);
 
 Matrix transpose(Matrix A);
 
-// TODO
 double determinant(Matrix A);
 
 // TODO
