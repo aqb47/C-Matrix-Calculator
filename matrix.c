@@ -92,6 +92,10 @@ int get_max_width(Matrix A) {
 int count_digits(float value) {
     int digits = 0;
 
+    if (value == 0) {
+        return digits;
+    }
+
     // Account for negative sign
     if (value < 0) {
         digits++; 
