@@ -3,7 +3,7 @@
 #include "matrix.h"
 
 static Matrix negate(Matrix A);
-static int count_digits(float value);
+static int count_digits(double value);
 static int get_max_width(Matrix A);
 static void print_matrix_ends(int width);
 
@@ -41,7 +41,7 @@ void print_matrix(Matrix A) {
 
         for (int j = 0; j < cols; j++) {
             // Print the element 
-            printf("  %*.*f  ", total_width, precision, A.data[i][j]);
+            printf("  %*.*lf  ", total_width, precision, A.data[i][j]);
         }
 
         // Right border
@@ -73,7 +73,7 @@ int get_max_width(Matrix A) {
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
-            float value = A.data[i][j];
+            double value = A.data[i][j];
             int width;
 
             // +1 for decimal point
@@ -88,11 +88,13 @@ int get_max_width(Matrix A) {
     return max_width;
 }
 
-// Get width of integer part of a float
-int count_digits(float value) {
+// Get width of integer part of a double
+int count_digits(double value) {
     int digits = 0;
 
+    // Specifically for 0.00..
     if (value == 0) {
+        digits++;
         return digits;
     }
 
@@ -204,3 +206,4 @@ Matrix transpose(Matrix A) {
 
     return B;
 }
+

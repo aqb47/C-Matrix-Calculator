@@ -9,8 +9,9 @@
 // Empty matrix to return when an operation fails
 #define EMPTY_MATRIX (Matrix) {{{0}}, 0, 0} 
 
+// A matrix will always have max_size x max_size dimensions, just specified with rows and cols
 typedef struct {
-    float data[MAX_SIZE][MAX_SIZE];
+    double data[MAX_SIZE][MAX_SIZE];
     int rows;
     int cols;
 } Matrix;
@@ -22,7 +23,7 @@ Matrix multiply(Matrix A, Matrix B);
 
 Matrix transpose(Matrix A);
 
-float determinant(Matrix A);
+double determinant(Matrix A);
 
 Matrix inverse(Matrix A);
 
