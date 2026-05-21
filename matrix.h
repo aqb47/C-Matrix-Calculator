@@ -1,6 +1,9 @@
 #ifndef MATRIX_h
 #define MATRIX_h
 
+#include <stdio.h>
+#include <math.h>
+
 // 5x5 matrix as max size
 #define MAX_SIZE 5 
 // Empty matrix to return when an operation fails

@@ -12,6 +12,12 @@ void print_matrix(Matrix A) {
     int rows = A.rows;
     int cols = A.cols;
 
+    // In case of an empty matrix
+    if ((rows == EMPTY_MATRIX.rows) && (cols == EMPTY_MATRIX.cols) && (A.data[0][0] == 0)) {
+        printf("ERROR");
+        return;
+    }
+
     // How many digits after decimal point to be shown
     int precision = 4;
 
@@ -173,4 +179,24 @@ Matrix multiply(Matrix A, Matrix B) {
     }
 
     return C;
+}
+
+// Swap rows and columns of a matrix
+Matrix transpose(Matrix A) {
+    int rows = A.rows;
+    int cols = A.cols;
+
+    // Initialize result matrix B with swapped dimensions
+    Matrix B = {{{0}}, cols, rows};
+
+    // Go through each row
+    for (int i = 0; i < rows; i++) {
+        // Go throuch each column
+        for (int j = 0; j < cols; j++) {
+            // Swap [row][col] and [col][row]
+            B.data[j][i] = A.data[i][j];
+        }
+    }
+
+    return B;
 }

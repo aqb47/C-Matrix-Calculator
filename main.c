@@ -57,14 +57,14 @@ int main(void) {
 
     Matrix H = multiply(A, B);
 
-    Matrix I = {
-        .data = {
-            {1, 0},
-            {0, 1}
-        },
-        .rows = 2,
-        .cols = 2
-    };
+    // Matrix I = {
+    //     .data = {
+    //         {1, 0},
+    //         {0, 1}
+    //     },
+    //     .rows = 2,
+    //     .cols = 2
+    // };
 
     print_matrix(A);
     printf("+\n");
@@ -88,6 +88,12 @@ int main(void) {
     printf("\n");
 
     print_matrix(H);
+    printf("\n");
+
+    print_matrix(transpose(F));
+    printf("\n");
+
+    print_matrix(transpose(E));
     printf("\n");
 
     scanf("%*c"); 
