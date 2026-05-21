@@ -4,18 +4,19 @@
 int main(void) {
     // Test cases
     Matrix A = {
-        .data= {
-            {1, 2, 3, 4, 5},
-            {6, 7, 8, 9, 10},
-            {11, 12, 13, 14, 15},
-            {16, 17, 18, 19, 20},
-            {21, 22, 23, 24, 25}
+        .data = {
+            {0, 9, 8},
+            {1, 2, 5},
+            {6, 1, -9}
         },
-        .rows = 5,
-        .cols = 5
+        .rows = 3,
+        .cols = 3
     };
 
-    printf("%lf\n", determinant(A));
+    print_matrix(inverse(A));
+
+    // This should be an identity matrix
+    print_matrix(multiply(A, inverse(A)));
 
     return 0;
 }

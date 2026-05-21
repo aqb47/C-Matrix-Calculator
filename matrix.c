@@ -7,6 +7,7 @@ static int count_digits(double value);
 static int get_max_width(Matrix A);
 static void print_matrix_ends(int width);
 static Matrix generate_submatrix(Matrix A, int row, int col);
+static Matrix multiply_constant(double constant, Matrix A);
 
 // Print the matrix A with border
 void print_matrix(Matrix A) {
@@ -22,6 +23,7 @@ void print_matrix(Matrix A) {
     // How many digits after decimal point to be shown
     int precision = 4;
 
+    // How many spaces there are between elements
     int padding = 4;
 
     // Calculate total width of each element for formatting
@@ -41,6 +43,9 @@ void print_matrix(Matrix A) {
         printf("| ");
 
         for (int j = 0; j < cols; j++) {
+            // Prevent -0.0000 - this specifically relates to precision
+            if (fabs(A.data[i][j]) < 0.00005) A.data[i][j] = 0.0;
+
             // Print the element 
             printf("  %*.*lf  ", total_width, precision, A.data[i][j]);
         }
@@ -278,4 +283,52 @@ Matrix generate_submatrix(Matrix A, int row, int col) {
     }
 
     return B;
+}
+
+// Multiply a matrix with a constant. This returns a matrix with every entry multiplied by that constant
+Matrix multiply_constant(double constant, Matrix A) {
+    int rows = A.rows;
+    int cols = A.cols;
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            A.data[i][j] *= constant;
+        }
+    }
+
+    return A;
+}
+
+// Get an inverse matrix (matrix that multiplied by input produces an identity matrix)
+Matrix inverse(Matrix A) {
+    int rows = A.rows;
+    int cols = A.cols;
+
+    // Non-square matrices do not have an inverse matrix
+    if (rows != cols) {
+        return EMPTY_MATRIX;
+    }
+
+    double det_value = determinant(A);
+
+    // A matrix with zero as a determinant also does not have an inverse matrix
+    if (fabs(det_value) < 1e-9) {
+        return EMPTY_MATRIX;
+    }
+
+    // Initialize cofactor matrix
+    Matrix cofactor_A = {{{0}}, rows, cols};
+
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            int sign = ((i + j) % 2 == 0) ? 1 : -1;
+
+            cofactor_A.data[i][j] = sign * determinant(generate_submatrix(A, i, j));
+        }
+    }
+
+    // Calculate inverse matrix
+    Matrix inv_A = multiply_constant(1 / det_value, transpose(cofactor_A));
+
+    return inv_A;
 }
