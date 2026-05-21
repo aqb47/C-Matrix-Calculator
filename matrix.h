@@ -23,13 +23,18 @@ Matrix multiply(Matrix A, Matrix B);
 
 Matrix transpose(Matrix A);
 
+// TODO
 double determinant(Matrix A);
 
+// TODO
 Matrix inverse(Matrix A);
 
 void print_matrix(Matrix A);
 
+// TODO
 void save_to_file(Matrix A, const char* filename);
+
+// TODO
 Matrix load_from_file(const char* filename);
 
 #endif 

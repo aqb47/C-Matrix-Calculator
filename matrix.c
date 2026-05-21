@@ -6,6 +6,7 @@ static Matrix negate(Matrix A);
 static int count_digits(double value);
 static int get_max_width(Matrix A);
 static void print_matrix_ends(int width);
+static Matrix generate_submatrix(Matrix A, int row, int col);
 
 // Print the matrix A with border
 void print_matrix(Matrix A) {
@@ -207,3 +208,73 @@ Matrix transpose(Matrix A) {
     return B;
 }
 
+// Get determinant from a matrix. n represents rows or cols of square matrix
+double determinant(Matrix A) {
+    int rows = A.rows;
+    int cols = A.cols;
+
+    int n = rows;
+
+    double determinant_value = 0;
+
+    // Non-square matrices do not have a determinant
+    if (rows != cols) {
+        return determinant_value;
+    }
+
+    // 1x1 matrices determinant is their first value
+    if (n == 1) {
+        determinant_value = A.data[0][0];
+    }
+
+    // 2x2 matrices e.g [a b]
+    //                  [c d]
+    // have a determinant of ad - bc
+    else if (n == 2) {
+        determinant_value = A.data[0][0] * A.data[1][1] - A.data[0][1] * A.data[1][0];
+    }
+
+    // Recursively generate determinant for n > 2
+    else {
+        for (int i = 0; i < cols; i++) {
+            Matrix submatrix = generate_submatrix(A, 0, i);
+
+            determinant_value += pow(-1, i) * A.data[0][i] * determinant(submatrix);
+        }
+    }
+
+    return determinant_value;
+}
+
+// Generate submatrix with respect to row, col position (which is zero-based)
+Matrix generate_submatrix(Matrix A, int row, int col) {
+    // Initialize submatrix which will have one less row and one less col than initial square matrix
+    int A_rows = A.rows;
+    int A_cols = A.cols;
+
+    Matrix B = {{{0}}, A_rows - 1, A_cols - 1};
+
+    // For nth entry of submatrix count represents n - 1. This will be used to generate position of each entry of submatrix
+    int count = 0;
+
+    // Go throuch each row of initial matrix
+    for (int i = 0; i < A_rows; i++) {
+        // Go throuch each column of initial matrix
+        for (int j = 0; j < A_cols; j++) {
+            // Skip rows or columns from position which w.r.t we're finding the submatrix
+            if (i == row || j == col) {
+                continue;
+            }
+
+            // Generate submatrix position
+            int submatrix_row = floor(count / (A_rows - 1));
+            int submatrix_col = count % (A_rows - 1);
+
+            // Assign values
+            B.data[submatrix_row][submatrix_col] = A.data[i][j];
+            count++;
+        }
+    }
+
+    return B;
+}
