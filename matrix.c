@@ -13,7 +13,7 @@ void print_matrix(Matrix A) {
     int cols = A.cols;
 
     // How many digits after decimal point to be shown
-    int precision = 5;
+    int precision = 4;
 
     int padding = 4;
 
@@ -106,7 +106,7 @@ int count_digits(float value) {
 Matrix add(Matrix A, Matrix B) {
     // If dimensions don't match return an empty matrix
     if (A.rows != B.rows || A.cols != B.cols) {
-        return (Matrix){{{0}}, 0, 0}; 
+        return EMPTY_MATRIX; 
     }
 
     // Initialize result matrix C
@@ -146,4 +146,31 @@ Matrix subtract(Matrix A, Matrix B) {
     B = negate(B);
 
     return add(A, B);
+}
+
+// Multiply A and B in order A * B
+Matrix multiply(Matrix A, Matrix B) {
+    int A_rows = A.rows;
+    int A_cols = A.cols;
+
+    int B_rows = B.rows;
+    int B_cols = B.cols;
+
+    // Return an empty matrix if dimensions do not match
+    if (A_cols != B_rows) {
+        return EMPTY_MATRIX;
+    }
+
+    // Initialize result matrix C with dimensions A_rows x B_cols
+    Matrix C = {.data = {{0}}, .rows = A_rows, .cols = B_cols};
+
+    for (int i = 0; i < A_rows; i++) {
+        for (int j = 0; j < B_cols; j++) {
+            for (int k = 0; k < A_cols; k++) {
+                C.data[i][j] += A.data[i][k] * B.data[k][j];
+            }
+        }
+    }
+
+    return C;
 }
