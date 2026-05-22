@@ -2,6 +2,9 @@
 #include "matrix.h"
 
 int main(void) {
+    long initial_pos = 0;
+    long* inputtxt_offset_ptr = &initial_pos;
+
     // Test cases
     Matrix A = {
         .data = {
@@ -13,11 +16,17 @@ int main(void) {
         .cols = 3
     };
 
-    Matrix B = load_from_file("input.txt");
+    Matrix B = load_from_file("input.txt", inputtxt_offset_ptr);
+    Matrix C = load_from_file("input.txt", inputtxt_offset_ptr);
+    Matrix D = load_from_file("input.txt", inputtxt_offset_ptr);
 
     print_matrix(A);
+    print_matrix(B);
+    print_matrix(C);
+    print_matrix(D);
 
     save_to_file(B, "output.txt");
+    save_to_file(C, "output.txt");
 
     return 0;
 }

@@ -124,7 +124,7 @@ int save_to_file(Matrix A, const char* filename) {
     int cols = A.cols;
 
     // Open file
-    destFile = fopen(filename, "w");
+    destFile = fopen(filename, "a");
     if (destFile == NULL) {
         return 1;
     }
@@ -149,7 +149,8 @@ int save_to_file(Matrix A, const char* filename) {
 // Load a matrix from a file in form -
 // rows cols
 // entries
-Matrix load_from_file(const char* filename) {
+// Offset is how many bytes we've read before. This is necessary for importing multiple matrices from a single file
+Matrix load_from_file(const char* filename, long* offset_ptr) {
     FILE *srcFile;
     
     int rows, cols;
@@ -160,10 +161,17 @@ Matrix load_from_file(const char* filename) {
         return EMPTY_MATRIX;
     }
 
+    // Apply offset
+    fseek(srcFile, *offset_ptr, SEEK_SET);
+
+    // Record where we begin reading file
+    long byte_start = ftell(srcFile);
+
     // Read rows and cols number
     fscanf(srcFile, "%d %d\n", &rows, &cols);
 
     if (rows > MAX_SIZE || cols > MAX_SIZE) {
+        *offset_ptr += ftell(srcFile) - byte_start;
         return EMPTY_MATRIX;
     }
 
@@ -179,6 +187,12 @@ Matrix load_from_file(const char* filename) {
             A.data[i][j] = entry_value;
         }
     }
+
+    // Where we end reading file
+    long byte_end = ftell(srcFile);
+
+    // Change offset
+    *offset_ptr += byte_end - byte_start;
 
     // Close file and return matrix
     fclose(srcFile);

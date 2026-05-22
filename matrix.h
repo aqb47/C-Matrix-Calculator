@@ -31,6 +31,6 @@ void print_matrix(Matrix A);
 
 int save_to_file(Matrix A, const char* filename);
 
-Matrix load_from_file(const char* filename);
+Matrix load_from_file(const char* filename, long* offset_ptr);
 
 #endif 
