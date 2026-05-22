@@ -116,10 +116,38 @@ int count_digits(double value) {
     return digits;
 }
 
-// void save_to_file(Matrix A, const char* filename) {
-//     // TODO
-// }
+// Print rows, cols and entries of a matrix to a file without formatting
+void save_to_file(Matrix A, const char* filename) {
+    FILE *destFile;
+    int rows = A.rows;
+    int cols = A.cols;
 
+    // Open file
+    destFile = fopen(filename, "w");
+    if (destFile == NULL) {
+        return;
+    }
+
+    // Print rows and cols of matrix
+    fprintf(destFile, "%i %i\n", rows, cols);
+
+    // Print every entry of matrix
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < cols; j++) {
+            fprintf(destFile, "%.4lf ", A.data[i][j]);
+        }
+
+        fprintf(destFile, "\n");
+    }
+
+    // Close file
+    fclose(destFile);
+    return;
+}
+
+// Load a matrix from a file in form -
+// rows cols
+// entries
 Matrix load_from_file(const char* filename) {
     FILE *srcFile;
     

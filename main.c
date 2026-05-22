@@ -14,9 +14,10 @@ int main(void) {
     };
 
     Matrix B = load_from_file("input.txt");
-    
+
     print_matrix(A);
-    print_matrix(B);
+
+    save_to_file(B, "output.txt");
 
     return 0;
 }
