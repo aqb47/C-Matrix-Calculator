@@ -96,7 +96,7 @@ int count_digits(double value) {
     int digits = 0;
 
     // Specifically for 0.00..
-    if (value == 0) {
+    if (fabs(value) < 1e-9) {
         digits++;
         return digits;
     }
@@ -155,9 +155,10 @@ Matrix load_from_file(const char* filename, long* offset_ptr) {
     
     int rows, cols;
 
-    // Open file and check for NULL pointer
+    // Open file and check for null pointers
     srcFile = fopen(filename, "r");
-    if (srcFile == NULL) {
+    
+    if (srcFile == NULL || offset_ptr == NULL) {
         return EMPTY_MATRIX;
     }
 
