@@ -13,10 +13,10 @@ int main(void) {
         .cols = 3
     };
 
-    print_matrix(inverse(A));
-
-    // This should be an identity matrix
-    print_matrix(multiply(A, inverse(A)));
+    Matrix B = load_from_file("input.txt");
+    
+    print_matrix(A);
+    print_matrix(B);
 
     return 0;
 }
