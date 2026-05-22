@@ -29,8 +29,7 @@ Matrix inverse(Matrix A);
 
 void print_matrix(Matrix A);
 
-// TODO
-void save_to_file(Matrix A, const char* filename);
+int save_to_file(Matrix A, const char* filename);
 
 Matrix load_from_file(const char* filename);
 

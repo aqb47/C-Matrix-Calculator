@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <math.h>
 #include "matrix.h"
 
 static int count_digits(double value);
@@ -117,7 +118,7 @@ int count_digits(double value) {
 }
 
 // Print rows, cols and entries of a matrix to a file without formatting
-void save_to_file(Matrix A, const char* filename) {
+int save_to_file(Matrix A, const char* filename) {
     FILE *destFile;
     int rows = A.rows;
     int cols = A.cols;
@@ -125,7 +126,7 @@ void save_to_file(Matrix A, const char* filename) {
     // Open file
     destFile = fopen(filename, "w");
     if (destFile == NULL) {
-        return;
+        return 1;
     }
 
     // Print rows and cols of matrix
@@ -142,7 +143,7 @@ void save_to_file(Matrix A, const char* filename) {
 
     // Close file
     fclose(destFile);
-    return;
+    return 0;
 }
 
 // Load a matrix from a file in form -
@@ -160,7 +161,7 @@ Matrix load_from_file(const char* filename) {
     }
 
     // Read rows and cols number
-    fscanf(srcFile, "%i %i\n", &rows, &cols);
+    fscanf(srcFile, "%d %d\n", &rows, &cols);
 
     if (rows > MAX_SIZE || cols > MAX_SIZE) {
         return EMPTY_MATRIX;
