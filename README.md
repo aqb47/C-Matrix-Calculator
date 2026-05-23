@@ -31,4 +31,6 @@ e.g.
 4 5 6
 7 8 9
 ```
+If you work with a matrix operation involving two matrices they will be read sequentially, and the operation order will always be (first matrix) operation (second matrix).
+
 If you save the output in ```output.txt``` you will see a similiar result matrix in this format.
