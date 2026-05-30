@@ -1,7 +1,7 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c11 -g
 TARGET = matrix
-SRCS = test.c matrix.c io.c
+SRCS = main.c matrix.c io.c
 OBJS = $(SRCS:.c=.o)
 
 .PHONY: all clean
