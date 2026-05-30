@@ -253,7 +253,7 @@ Matrix gaussian_elimination(Matrix coefficient_matrix, Matrix result_matrix) {
         swap_greatest_row(&augmented_matrix, i, i);
 
         // In case entry is zero 
-        if (augmented_matrix.data[i][i] == 0) {
+        if (fabs(augmented_matrix.data[i][i]) < 1e-9) {
             return EMPTY_MATRIX;
         }
 
@@ -272,23 +272,12 @@ Matrix gaussian_elimination(Matrix coefficient_matrix, Matrix result_matrix) {
 
     // Row we start solving from will be at the bottom going to top for upper triangular matrices
     int starting_row = augmented_matrix.rows - 1;
-    int is_upper_triangular = 1;
 
     // Initialize result variable matrix with 0 as entry values and fill them up as we get solutions
-    Matrix variable_matrix = {.rows = total_variables + 1, .cols = 1, .data = {{0}}};
+    Matrix variable_matrix = {.rows = augmented_matrix.rows, .cols = 1, .data = {{0}}};
 
-    // In case we get a lower triangular matrix we'll start solving from top row to bottom
-    for (int i = 0; i < coefficient_matrix.cols - 1; i++) {
-        // If a single entry isn't zero we switch the approach from bottom-up to top-down
-        if (!(fabs(augmented_matrix.data[starting_row][i]) < 1e-9)) {
-            starting_row = 0;
-            is_upper_triangular = 0;
-            break;
-        }
-    }
-
-    // Move through augmented matrix
-    for (int i = starting_row; (is_upper_triangular && i >= 0) || (!is_upper_triangular && i < augmented_matrix.rows); is_upper_triangular? i--: i++) {
+    // Move through augmented matrix bottom to top
+    for (int i = starting_row; i >= 0; i--) {
         // Right hand side value
         double RHS = augmented_matrix.data[i][augmented_matrix.cols - 1];
         // Coefficient of variable
@@ -322,7 +311,7 @@ Matrix form_augmented_matrix(Matrix coefficient_matrix, Matrix result_matrix) {
     int rows = coefficient_matrix.rows;
     int cols = coefficient_matrix.cols + result_matrix.cols;
 
-    Matrix augmented_matrix_output = {.rows = rows, .cols = cols};
+    Matrix augmented_matrix_output = {.rows = rows, .cols = cols, .data = {{0}}};
 
     for (int i = 0; i < rows; i++) {
         for (int j = 0; j < cols; j++) {
@@ -345,8 +334,8 @@ void swap_greatest_row(Matrix* augmented_matrix, int target_row, int target_col)
 
     // Get maximum value and position of row with maximum value
     for (int i = target_row; i < augmented_matrix->rows; i++) {
-        if (augmented_matrix->data[i][target_col] > max) {
-            max = augmented_matrix->data[i][target_col];
+        if (fabs(augmented_matrix->data[i][target_col]) > max) {
+            max = fabs(augmented_matrix->data[i][target_col]);
             max_row = i;
         }
     }
