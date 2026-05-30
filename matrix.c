@@ -264,8 +264,6 @@ Matrix gaussian_elimination(Matrix coefficient_matrix, Matrix result_matrix) {
         }
     }
 
-    print_matrix(augmented_matrix);
-
     // This'll count down as we solve the augmented matrix (zero-based)
     int variable_to_solve = coefficient_matrix.cols - 1;
     int total_variables = variable_to_solve;
