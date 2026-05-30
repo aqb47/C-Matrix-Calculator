@@ -5,7 +5,7 @@
 #include <math.h>
 
 // 5x5 matrix as max size
-#define MAX_SIZE 5 
+#define MAX_SIZE 10
 // Empty matrix to return when an operation fails
 #define EMPTY_MATRIX (Matrix) {{{0}}, 0, 0} 
 
@@ -26,6 +26,8 @@ Matrix transpose(Matrix A);
 double determinant(Matrix A);
 
 Matrix inverse(Matrix A);
+
+Matrix gaussian_elimination(Matrix coefficient_matrix, Matrix result_matrix);
 
 void print_matrix(Matrix A);
 
